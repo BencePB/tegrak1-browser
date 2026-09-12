@@ -27,8 +27,10 @@ LIB_PATHS=(
 )
 
 for p in "${LIB_PATHS[@]}"; do
+  DEST_PARENT="$SYSROOT$(dirname "$p")"
+  mkdir -p "$DEST_PARENT"
   echo "==> Syncing $p"
-  rsync -avL --ignore-missing-args "$BOARD_USER@$BOARD_IP:$p" "$SYSROOT$(dirname "$p")/" || \
+  rsync -avL --ignore-missing-args "$BOARD_USER@$BOARD_IP:$p" "$DEST_PARENT/" || \
     echo "    (skipped, not found on board -- check path)"
 done
 
